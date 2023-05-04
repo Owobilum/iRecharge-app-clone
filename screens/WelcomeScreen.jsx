@@ -1,21 +1,28 @@
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 import IconButton from '../components/IconButton';
 import { Colors } from '../constants/colors';
 
 function WelcomeScreen() {
+  const colors = useTheme().colors;
+
   function signUpHandler() {}
 
   return (
     <ScrollView>
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
         <Image
           source={require('../assets/images/hero.png')}
           style={styles.image}
           resizeMode="cover"
         />
-        <Text style={styles.heading}>Welcome to iRecharge</Text>
-        <Text style={styles.bodyText}>Convenience and Accessibility</Text>
+        <Text style={[styles.heading, { color: colors.text }]}>
+          Welcome to iRecharge
+        </Text>
+        <Text style={[styles.bodyText, { color: colors.text }]}>
+          Convenience and Accessibility
+        </Text>
         <View style={styles.buttonContainer}>
           {userOptions.map(({ icon, name }) => (
             <IconButton
@@ -28,7 +35,7 @@ function WelcomeScreen() {
             </IconButton>
           ))}
         </View>
-        <Text style={styles.cta}>
+        <Text style={[styles.cta, { color: colors.text }]}>
           Don't have an account?{' '}
           <Text style={styles.highlight} onPress={signUpHandler}>
             Create one
@@ -66,7 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 8,
+    gap: 11,
     marginTop: 45,
   },
   cta: {

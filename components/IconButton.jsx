@@ -2,26 +2,39 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Platform } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 import { Colors } from '../constants/colors';
 
 function IconButton({ children, icon, iconProps, onPress, style }) {
+  const colors = useTheme().colors;
   const [isPressed, setIsPressed] = useState(false);
+
   return (
-    <View style={[styles.buttonContainer, style]}>
+    <View style={[styles.buttonContainer, { shadowColor: colors.text }, style]}>
       <Pressable
         android_ripple={{ color: Colors.primary500 }}
-        style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+        style={({ pressed }) => [
+          styles.button,
+          { backgroundColor: colors.card },
+          pressed && styles.pressed,
+        ]}
         onPress={onPress}
         onPressIn={() => setIsPressed(true)}
         onPressOut={() => setIsPressed(false)}
       >
         <FontAwesome5
           name={icon}
-          color={isPressed ? 'white' : 'black'}
+          color={isPressed ? 'white' : colors.text}
           {...iconProps}
         />
-        <Text style={[styles.text, isPressed && styles.textPressed]}>
+        <Text
+          style={[
+            styles.text,
+            { color: colors.text },
+            isPressed && styles.textPressed,
+          ]}
+        >
           {children}
         </Text>
       </Pressable>
@@ -36,10 +49,9 @@ const styles = StyleSheet.create({
     overflow: Platform.OS === 'android' ? 'hidden' : 'visible',
     borderRadius: 8,
     elevation: 4,
-    shadowColor: 'black',
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 8,
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.1,
     backgroundColor: 'white',
   },
   button: {
@@ -47,7 +59,6 @@ const styles = StyleSheet.create({
     gap: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
     borderRadius: 8,
     paddingHorizontal: 24,
     width: '100%',
@@ -60,7 +71,6 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: 'PlusJakarta',
     fontSize: 12,
-    color: 'black',
   },
   textPressed: {
     color: 'white',
