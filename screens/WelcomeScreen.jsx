@@ -1,13 +1,39 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+} from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
 import IconButton from '../components/IconButton';
 import { Colors } from '../constants/colors';
+import PhoneNumberModal from '../components/modals/PhoneNumberModal';
 
 function WelcomeScreen() {
   const colors = useTheme().colors;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+
+  function closeModalHandler() {
+    setIsModalVisible(false);
+  }
+
+  function openModalHandler() {
+    setIsModalVisible(true);
+  }
 
   function signUpHandler() {}
+
+  function actionHandler(actionName) {
+    if (actionName === 'Pay bills as a guest') {
+      openModalHandler();
+      return;
+    }
+  }
 
   return (
     <ScrollView>
@@ -30,6 +56,7 @@ function WelcomeScreen() {
               icon={icon}
               iconProps={{ size: 18 }}
               style={{ width: '48%', height: 64 }}
+              onPress={actionHandler.bind(this, name)}
             >
               {name}
             </IconButton>
@@ -37,11 +64,20 @@ function WelcomeScreen() {
         </View>
         <Text style={[styles.cta, { color: colors.text }]}>
           Don't have an account?{' '}
-          <Text style={styles.highlight} onPress={signUpHandler}>
+          <Text
+            style={[styles.highlight, isPressed && styles.ctaPressed]}
+            onPress={signUpHandler}
+            onPressIn={() => setIsPressed(true)}
+            onPressOut={() => setIsPressed(false)}
+          >
             Create one
           </Text>
         </Text>
       </View>
+      <PhoneNumberModal
+        visible={isModalVisible}
+        onDismiss={closeModalHandler}
+      />
     </ScrollView>
   );
 }
@@ -80,6 +116,9 @@ const styles = StyleSheet.create({
     marginTop: 42,
     fontFamily: 'PlusJakarta',
     fontSize: 12,
+  },
+  ctaPressed: {
+    color: Platform.OS === 'android' ? Colors.primary800 : Colors.primary500,
   },
   highlight: {
     color: Colors.primary500,
