@@ -8,6 +8,7 @@ import {
   Button,
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 import IconButton from '../components/IconButton';
 import { Colors } from '../constants/colors';
@@ -17,6 +18,8 @@ function WelcomeScreen() {
   const colors = useTheme().colors;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
+
+  const phone = useSelector((state) => state.user.phoneNumber);
 
   function closeModalHandler() {
     setIsModalVisible(false);
@@ -44,7 +47,7 @@ function WelcomeScreen() {
           resizeMode="cover"
         />
         <Text style={[styles.heading, { color: colors.text }]}>
-          Welcome to iRecharge
+          Welcome to iRecharge {phone}
         </Text>
         <Text style={[styles.bodyText, { color: colors.text }]}>
           Convenience and Accessibility
