@@ -27,5 +27,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.gray300,
     height: 45,
     paddingHorizontal: 16,
+    borderRadius: 5,
   },
 });

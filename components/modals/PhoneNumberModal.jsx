@@ -69,7 +69,7 @@ function PhoneNumberModal({ visible, onDismiss }) {
           when your transaction is completed
         </Text>
         <Input label="Phone number" onChangeText={inputHandler} value={phone} />
-        <CustomButton style={styles.button} onPress={submitHandler}>
+        <CustomButton buttonStyle={styles.button} onPress={submitHandler}>
           Continue
         </CustomButton>
         <Text
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 37,
+    borderRadius: 5,
   },
   cta: {
     color: Colors.primary500,

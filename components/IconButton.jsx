@@ -11,7 +11,13 @@ function IconButton({ children, icon, iconProps, onPress, style }) {
   const [isPressed, setIsPressed] = useState(false);
 
   return (
-    <View style={[styles.buttonContainer, { shadowColor: colors.text }, style]}>
+    <View
+      style={[
+        styles.buttonContainer,
+        { shadowColor: colors.text, backgroundColor: colors.card },
+        style,
+      ]}
+    >
       <Pressable
         android_ripple={{ color: Colors.primary500 }}
         style={({ pressed }) => [
@@ -48,11 +54,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     overflow: Platform.OS === 'android' ? 'hidden' : 'visible',
     borderRadius: 8,
-    elevation: 4,
+    elevation: 2,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
     shadowOpacity: 0.1,
-    backgroundColor: 'white',
   },
   button: {
     flexDirection: 'row',

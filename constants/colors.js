@@ -1,4 +1,5 @@
 export const Colors = {
+  primary50: '#EAFBF2',
   primary100: '#c1e4ce',
   primary200: '#9ad3af',
   primary300: '#70c390',
@@ -8,6 +9,9 @@ export const Colors = {
   primary700: '#17894c',
   primary800: '#107841',
   primary900: '#03592e',
+  secondary100: '#fccdc0',
+  secondary800: '#D34829',
+  secondary900: '#b93d22',
   gray300: '#EFEFEF',
   gray500: '#E5E5E5',
 };
