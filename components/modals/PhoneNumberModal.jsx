@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import Input from '../Input';
 import CustomButton from '../Button';
@@ -17,6 +18,7 @@ import { Colors } from '../../constants/colors';
 import { selectUserPhone, setUserPhone } from '../../redux/userSlice';
 
 function PhoneNumberModal({ visible, onDismiss }) {
+  const navigation = useNavigation();
   const colors = useTheme().colors;
   const dispatch = useDispatch();
   const { width } = useWindowDimensions();
@@ -31,6 +33,8 @@ function PhoneNumberModal({ visible, onDismiss }) {
 
   function submitHandler() {
     dispatch(setUserPhone(phone));
+    navigation.navigate('Guest');
+    Platform.OS === 'ios' && onDismiss();
   }
 
   function createAccountHandler() {}

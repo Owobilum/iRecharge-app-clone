@@ -8,13 +8,21 @@ import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
+  useTheme,
 } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 import WelcomeScreen from './screens/WelcomeScreen';
 import { Colors } from './constants/colors';
 import { store, persistor } from './redux/store';
+import GuestHomeScreen from './screens/guest/GuestHomeScreen';
+import GuestMenuScreen from './screens/guest/GuestMenuScreen';
+import GuestAccountScreen from './screens/guest/GuestAccountScreen';
+import GuestSupportScreen from './screens/guest/GuestSupportScreen';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -33,6 +41,73 @@ const MyDarkTheme = {
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
+const Tab = createBottomTabNavigator();
+
+function GuestScreens() {
+  const colors = useTheme().colors;
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerLeft: () => (
+          <Image
+            source={require('./assets/images/logo.png')}
+            style={[styles.logo, { marginLeft: 16 }]}
+          />
+        ),
+        headerRight: () => (
+          <Ionicons
+            name="ios-notifications-outline"
+            size={24}
+            color={colors.text}
+            style={{ marginRight: 16 }}
+          />
+        ),
+        headerTitle: '',
+      }}
+    >
+      <Tab.Screen
+        name="GuestHome"
+        component={GuestHomeScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="GuestMenu"
+        component={GuestMenuScreen}
+        options={{
+          tabBarLabel: 'Menu',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="menu" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="GuestSupport"
+        component={GuestSupportScreen}
+        options={{
+          tabBarLabel: 'Support',
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="headset" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="GuestAccount"
+        component={GuestAccountScreen}
+        options={{
+          tabBarLabel: 'Account',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
 export default function App() {
   const scheme = useColorScheme();
@@ -74,6 +149,13 @@ export default function App() {
                     />
                   ),
                   headerTitleAlign: 'center',
+                }}
+              />
+              <Stack.Screen
+                name="Guest"
+                component={GuestScreens}
+                options={{
+                  headerShown: false,
                 }}
               />
             </Stack.Navigator>
