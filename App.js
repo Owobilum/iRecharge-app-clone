@@ -48,20 +48,6 @@ function GuestScreens() {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerLeft: () => (
-          <Image
-            source={require('./assets/images/logo.png')}
-            style={[styles.logo, { marginLeft: 16 }]}
-          />
-        ),
-        headerRight: () => (
-          <Ionicons
-            name="ios-notifications-outline"
-            size={24}
-            color={colors.text}
-            style={{ marginRight: 16 }}
-          />
-        ),
         headerTitle: '',
       }}
     >
@@ -73,6 +59,20 @@ function GuestScreens() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
           ),
+          headerLeft: () => (
+            <Image
+              source={require('./assets/images/logo.png')}
+              style={[styles.logo, { marginLeft: 16 }]}
+            />
+          ),
+          headerRight: () => (
+            <Ionicons
+              name="ios-notifications-outline"
+              size={24}
+              color={colors.text}
+              style={{ marginRight: 16 }}
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -83,6 +83,8 @@ function GuestScreens() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="menu" color={color} size={size} />
           ),
+          headerTitle: 'Menu',
+          headerTitleAlign: 'center',
         }}
       />
       <Tab.Screen

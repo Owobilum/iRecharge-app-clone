@@ -48,8 +48,8 @@ const MyCarousel = ({ data }) => {
           autoplay={true}
           loop={true}
           onSnapToItem={(index) => setIndex(index)}
-          autoplayInterval={5000}
-          autoplayDelay={3000}
+          // autoplayInterval={5000}
+          // autoplayDelay={3000}
         />
         <Pagination
           dotsLength={data.length}
