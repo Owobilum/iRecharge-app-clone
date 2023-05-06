@@ -7,6 +7,7 @@ import { Link } from '@react-navigation/native';
 import { Colors } from '../../constants/colors';
 import CustomButton from '../../components/Button';
 import { selectUserPhone } from '../../redux/userSlice';
+import Carousel from '../../components/Carousel';
 
 function ServiceCard({ icon, label, onPress }) {
   const colors = useTheme().colors;
@@ -82,7 +83,6 @@ function GuestHomeScreen() {
             SIGN UP
           </CustomButton>
         </View>
-
         <Text style={[styles.servicesSectionHead, { color: colors.text }]}>
           My Services
         </Text>
@@ -115,6 +115,9 @@ function GuestHomeScreen() {
           <Link to={{ screen: 'Welcome' }} style={styles.read}>
             Read more
           </Link>
+        </View>
+        <View>
+          <Carousel data={carouselData} />
         </View>
       </View>
     </ScrollView>
@@ -227,4 +230,22 @@ const servicesData = [
   { label: 'Sports Betting', icon: 'basketball', route: '' },
   { label: 'Insurance', icon: 'shield-checkmark', route: '' },
   { label: 'Jamb & Waec', icon: 'book', route: '' },
+];
+
+const carouselData = [
+  {
+    title: 'Beautiful and dramatic Zuma Valley',
+    subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
+    illustration: 'https://i.imgur.com/UYiroysl.jpg',
+  },
+  {
+    title: 'Earlier this morning, Wuse 2',
+    subtitle: 'Lorem ipsum dolor sit amet',
+    illustration: 'https://i.imgur.com/UPrs1EWl.jpg',
+  },
+  {
+    title: 'White Pocket Sunset',
+    subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
+    illustration: 'https://i.imgur.com/MABUbpDl.jpg',
+  },
 ];
