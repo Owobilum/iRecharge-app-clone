@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Colors } from '../constants/colors';
 
-function IconLink({ to, action, icon, children, ...rest }) {
+function IconLink({ to, action, icon, noIconContainer, children, ...rest }) {
   const colors = useTheme().colors;
   const { onPress, ...props } = useLinkProps({ to, action });
 
@@ -21,7 +21,7 @@ function IconLink({ to, action, icon, children, ...rest }) {
       android_ripple={{ color: Colors.primary100 }}
     >
       <View style={styles.container}>
-        <View style={styles.iconContainer}>
+        <View style={!noIconContainer && styles.iconContainer}>
           <Ionicons name={icon} size={20} color={Colors.primary500} />
         </View>
         <Text style={[{ color: colors.text }]}>{children}</Text>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Carousel, {
   ParallaxImage,
   Pagination,
@@ -8,14 +8,19 @@ import { useTheme } from '@react-navigation/native';
 
 const { width: screenWidth } = Dimensions.get('window');
 
-const MyCarousel = ({ data }) => {
+const MyCarousel = ({ data: passedData }) => {
   const { colors } = useTheme();
   const carouselRef = useRef(null);
   const [index, setIndex] = useState(0);
+  const [data, setData] = useState(null);
 
   //   const goForward = () => {
   //     carouselRef.current.snapToNext();
   //   };
+
+  useEffect(() => {
+    setData(passedData);
+  }, []);
 
   const renderItem = ({ item, index }, parallaxProps) => {
     return (
@@ -36,39 +41,41 @@ const MyCarousel = ({ data }) => {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Carousel
-          ref={carouselRef}
-          sliderWidth={screenWidth}
-          sliderHeight={screenWidth}
-          itemWidth={screenWidth - 60}
-          data={data}
-          renderItem={renderItem}
-          hasParallaxImages={true}
-          autoplay={true}
-          loop={true}
-          onSnapToItem={(index) => setIndex(index)}
-          // autoplayInterval={5000}
-          // autoplayDelay={3000}
-        />
-        <Pagination
-          dotsLength={data.length}
-          activeDotIndex={index}
-          carouselRef={carouselRef}
-          dotStyle={{
-            width: 10,
-            height: 10,
-            borderRadius: 5,
-            marginHorizontal: 0,
-            backgroundColor: colors.primary,
-          }}
-          inactiveDotOpacity={0.4}
-          inactiveDotScale={0.6}
-          tappableDots={true}
-          dotColor={colors.primary}
-          inactiveDotColor={colors.border}
-        />
-      </View>
+      {data?.length && (
+        <View>
+          <Carousel
+            ref={carouselRef}
+            sliderWidth={screenWidth}
+            sliderHeight={screenWidth}
+            itemWidth={screenWidth - 60}
+            data={data}
+            renderItem={renderItem}
+            hasParallaxImages={true}
+            autoplay={true}
+            loop={true}
+            onSnapToItem={(index) => setIndex(index)}
+            // autoplayInterval={5000}
+            // autoplayDelay={3000}
+          />
+          <Pagination
+            dotsLength={data.length}
+            activeDotIndex={index}
+            carouselRef={carouselRef}
+            dotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+              marginHorizontal: 0,
+              backgroundColor: colors.primary,
+            }}
+            inactiveDotOpacity={0.4}
+            inactiveDotScale={0.6}
+            tappableDots={true}
+            dotColor={colors.primary}
+            inactiveDotColor={colors.border}
+          />
+        </View>
+      )}
     </View>
   );
 };

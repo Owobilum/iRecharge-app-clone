@@ -10,7 +10,7 @@ import {
   NavigationContainer,
   useTheme,
 } from '@react-navigation/native';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -23,6 +23,7 @@ import GuestHomeScreen from './screens/guest/GuestHomeScreen';
 import GuestMenuScreen from './screens/guest/GuestMenuScreen';
 import GuestAccountScreen from './screens/guest/GuestAccountScreen';
 import GuestSupportScreen from './screens/guest/GuestSupportScreen';
+import { selectUserTheme } from './redux/userSlice';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -95,6 +96,8 @@ function GuestScreens() {
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="headset" size={size} color={color} />
           ),
+          headerTitle: 'Support',
+          headerTitleAlign: 'center',
         }}
       />
       <Tab.Screen
@@ -111,9 +114,60 @@ function GuestScreens() {
   );
 }
 
-export default function App() {
+function Navigation() {
   const scheme = useColorScheme();
+  const userTheme = useSelector(selectUserTheme);
+  return (
+    <NavigationContainer
+      theme={
+        userTheme === 'dark'
+          ? MyDarkTheme
+          : userTheme === 'light'
+          ? MyTheme
+          : scheme === 'dark'
+          ? MyDarkTheme
+          : MyTheme
+      }
+    >
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{
+            headerTitle: () => (
+              <Image
+                source={require('./assets/images/logo.png')}
+                style={styles.logo}
+              />
+            ),
+            headerTitleAlign: 'center',
+          }}
+        />
+        <Stack.Screen
+          name="Guest"
+          component={GuestScreens}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
+function CustomStatusBar() {
+  const userTheme = useSelector(selectUserTheme);
+
+  return (
+    <StatusBar
+      style={
+        userTheme === 'dark' ? 'light' : userTheme === 'light' ? 'dark' : 'auto'
+      }
+    />
+  );
+}
+
+export default function App() {
   const [fontsLoaded] = useFonts({
     'PlusJakarta-100': require('./assets/fonts/PlusJakartaText-Light.otf'),
     PlusJakarta: require('./assets/fonts/PlusJakartaText-Regular.otf'),
@@ -133,35 +187,10 @@ export default function App() {
 
   return (
     <View onLayout={onLayoutRootView} style={styles.container}>
-      <StatusBar style="auto" />
       <Provider store={store}>
         <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
-          <NavigationContainer
-            theme={scheme === 'dark' ? MyDarkTheme : MyTheme}
-          >
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Welcome"
-                component={WelcomeScreen}
-                options={{
-                  headerTitle: () => (
-                    <Image
-                      source={require('./assets/images/logo.png')}
-                      style={styles.logo}
-                    />
-                  ),
-                  headerTitleAlign: 'center',
-                }}
-              />
-              <Stack.Screen
-                name="Guest"
-                component={GuestScreens}
-                options={{
-                  headerShown: false,
-                }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
+          <CustomStatusBar />
+          <Navigation />
         </PersistGate>
       </Provider>
     </View>
