@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, memo } from 'react';
 import Carousel, {
   ParallaxImage,
   Pagination,
@@ -8,19 +8,14 @@ import { useTheme } from '@react-navigation/native';
 
 const { width: screenWidth } = Dimensions.get('window');
 
-const MyCarousel = ({ data: passedData }) => {
+const MyCarousel = ({ data }) => {
   const { colors } = useTheme();
   const carouselRef = useRef(null);
   const [index, setIndex] = useState(0);
-  const [data, setData] = useState(null);
 
   //   const goForward = () => {
   //     carouselRef.current.snapToNext();
   //   };
-
-  useEffect(() => {
-    setData(passedData);
-  }, []);
 
   const renderItem = ({ item, index }, parallaxProps) => {
     return (
@@ -80,7 +75,7 @@ const MyCarousel = ({ data: passedData }) => {
   );
 };
 
-export default MyCarousel;
+export default memo(MyCarousel);
 
 const styles = StyleSheet.create({
   container: {

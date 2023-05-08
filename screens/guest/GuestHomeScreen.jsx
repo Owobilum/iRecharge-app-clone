@@ -1,4 +1,11 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,7 +21,7 @@ function ServiceCard({ icon, label, onPress }) {
 
   return (
     <Pressable
-      style={[
+      style={({ pressed }) => [
         {
           backgroundColor: colors.card,
           width: 84,
@@ -23,9 +30,11 @@ function ServiceCard({ icon, label, onPress }) {
           alignItems: 'center',
           borderRadius: 2,
           padding: 4,
+          opacity: Platform.select({ ios: pressed ? 0.7 : 1, android: 1 }),
         },
       ]}
       onPress={onPress}
+      android_ripple={{ color: Colors.primary100 }}
     >
       <View
         style={{
@@ -179,7 +188,7 @@ const styles = StyleSheet.create({
   servicesContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     columnGap: 4,
     rowGap: 8,
   },
